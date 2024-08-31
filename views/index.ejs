@@ -4,56 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Booking Form</title>
-  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <h1>Booking Form</h1>
-  <form action="/book" method="POST">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required>
-    
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
-    
+  <h1>Book a Service</h1>
+  <form action="/bookings" method="POST">
+    <input type="text" name="name" placeholder="Name" required />
+    <input type="email" name="email" placeholder="Email" required />
     <button type="submit">Book</button>
   </form>
-</body>
-</html>
 
-html
-Copy code
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bookings</title>
-  <link rel="stylesheet" href="/styles.css">
-</head>
-<body>
-  <h1>All Bookings</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Date</th>
-        <th>Time</th>
-      </tr>
-    </thead>
-    <tbody>
+  <h2></h2>
+  <ul>
+    <% if (bookings && bookings.length > 0) { %>
       <% bookings.forEach(booking => { %>
-        <tr>
-          <td><%= booking.id %></td>
-          <td><%= booking.name %></td>
-          <td><%= booking.email %></td>
-          <td><%= booking.date.toISOString().split('T')[0] %></td>
-          <td><%= booking.time %></td>
-        </tr>
-      <% }); %>
-    </tbody>
-  </table>
-  <a href="/">Back to Booking Form</a>
+        <li>
+          <%= booking.name %> - <%= booking.email %>
+          <a href="/bookings/edit/<%= booking.id %>">Edit</a>
+          <form action="/bookings/delete/<%= booking.id %>" method="POST" style="display:inline;">
+            <button type="submit">Delete</button>
+          </form>
+        </li>
+      <% }) %>
+    <% } else { %>
+      <li>No bookings found.</li>
+    <% } %>
+  </ul>
 </body>
 </html>

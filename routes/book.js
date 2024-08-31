@@ -1,14 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const bookingController = require('../controllers/bookingController');
+const bookingController = require('../controllers/book');
 
-// Route to render the booking form
+// Booking form and list
 router.get('/', bookingController.getBookingForm);
+router.post('/bookings', bookingController.postBooking);
 
-// Route to handle form submission
-router.post('/book', bookingController.postBooking);
+// Edit booking
+router.get('/bookings/edit/:id', bookingController.getEditBooking);
+router.post('/bookings/edit/:id', bookingController.postEditBooking);
 
-// Route to display all bookings
-router.get('/bookings', bookingController.getAllBookings);
+// Delete booking
+router.post('/bookings/delete/:id', bookingController.postDeleteBooking);
 
 module.exports = router;

@@ -1,28 +1,21 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../database');
+const Sequelize = require('sequelize');
+const sequelize = require('../util/database');
 
 const Booking = sequelize.define('Booking', {
   id: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true
   },
   name: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: false
   },
   email: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  date: {
-    type: DataTypes.DATE,
-    allowNull: false
-  },
-  time: {
-    type: DataTypes.TIME,
+    type: Sequelize.STRING,
     allowNull: false
   }
+  
 });
 
 module.exports = Booking;
