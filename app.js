@@ -1,23 +1,33 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+const bookingRoutes = require('./routes/bookings');
 const sequelize = require('./util/database');
-const routes = require('./routes');
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
+
+// Middleware
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
 
-// Use routes
-app.use('/', routes);
+// Routes
+app.use('/api/bookings', bookingRoutes);
 
-// Initialize database and start server
+// Sync database and start server
 sequelize.sync()
   .then(() => {
+    console.log('Database synced');
     app.listen(3000, () => {
-      console.log('Server running on http://localhost:3000');
+      console.log(`Server is running on http://localhost:3000`);
     });
   })
-  .catch(err => console.error('Unable to connect to the database:', err));
+  .catch((error) => {
+    console.error('Error syncing database:', error);
+  });
+
+module.exports = app;
